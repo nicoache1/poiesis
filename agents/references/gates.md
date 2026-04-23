@@ -24,6 +24,18 @@ All gates are pass/fail. The phase fails if any gate fails.
 7. 05-icp-b2b-b2c.md classifies the idea explicitly on the B2B/B2C spectrum and names a primary ICP
 8. All content is in the expected language (en or es)
 
+## Technical Feasibility Gates
+
+1. All 4 specialist files exist: 01-architecture-assessment.md, 02-effort-estimation.md, 03-third-party-dependencies.md, 04-technical-risks.md
+2. feasibility-report.md exists and contains a line matching exactly `VERDICT: FEASIBLE` or `VERDICT: NOT-FEASIBLE` (uppercase)
+3. feasibility-report.md includes a recommended architecture with justification
+4. feasibility-report.md includes MVP effort estimate (total person-weeks) and team composition
+5. 01-architecture-assessment.md proposes at least 2 architecture options with trade-offs
+6. 02-effort-estimation.md breaks MVP into at least 3 epics with person-week estimates
+7. 03-third-party-dependencies.md lists at least 3 external dependencies with pricing and alternatives
+8. 04-technical-risks.md identifies at least 5 risks ranked by severity
+9. All content is in the expected language (en or es)
+
 ## GTM Gates
 
 1. gtm/design/prototype/index.html exists and renders correctly when opened in a browser
@@ -33,3 +45,14 @@ All gates are pass/fail. The phase fails if any gate fails.
 5. gtm/marketing/ contains: copywriting.md, social-content.md, launch-strategy.md, sales-enablement.md, cold-email.md, icp-detailed.md, channels.md, search-queries.md
 6. FINAL_REPORT.md exists with summary, links to each artifact, and 3 concrete next steps
 7. All content is in the expected language (en or es)
+
+## Pre-sales Gates
+
+1. All 5 specialist files exist: 01-commercial-proposal.md, 02-pricing-model.md, 03-technical-summary.md, 04-risk-mitigation-plan.md, 05-case-for-action.md
+2. proposal-package.md exists with table of contents, executive brief, and next steps
+3. 01-commercial-proposal.md includes investment summary (not placeholder)
+4. 02-pricing-model.md proposes at least 2 pricing options with rate assumptions and payment milestones
+5. 03-technical-summary.md includes a simplified architecture diagram (mermaid)
+6. 04-risk-mitigation-plan.md includes at least 5 risks with mitigations and a risk matrix
+7. 05-case-for-action.md includes ROI timeline and cost of inaction
+8. All content is in the expected language (en or es)

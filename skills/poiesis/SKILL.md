@@ -2,9 +2,10 @@
 name: poiesis
 description: >
   Automated product discovery harness. Takes a raw idea and runs it through
-  Research → Strategy (go/no-go) → GTM (design + video + marketing).
-  Produces a knowledge base, viability report, working prototype, promo video,
-  and marketing kit. Invoke as /poiesis.
+  Research → Strategy (go/no-go) → Technical Feasibility (feasible/not-feasible)
+  → GTM (design + video + marketing) → Pre-sales (commercial proposal).
+  Produces a knowledge base, viability report, feasibility assessment, working
+  prototype, promo video, marketing kit, and client-ready proposal. Invoke as /poiesis.
 ---
 
 # Poiesis Run
@@ -59,9 +60,29 @@ strategy/
   viability-report.md
 ```
 
-## Phase 3: GTM
+## Phase 3: Technical Feasibility
 
-Invoke @gtm-director with the idea + research + strategy context. It runs three sub-teams:
+Invoke @technical-feasibility-director with the idea context + all research and strategy output. It spawns 4 specialists and produces `technical/feasibility-report.md` with a `VERDICT: FEASIBLE` or `VERDICT: NOT-FEASIBLE`.
+
+**Gate:** Verify using binary checks in `agents/references/gates.md` (Technical Feasibility section).
+
+**On NOT-FEASIBLE:** Write `FINAL_REPORT.md` explaining why the idea is not technically viable, referencing both the viability report (GO) and the feasibility report (NOT-FEASIBLE). Stop the pipeline. Do not proceed to Phase 4.
+
+**On FEASIBLE:** Proceed to Phase 4.
+
+**Expected output:**
+```
+technical/
+  01-architecture-assessment.md
+  02-effort-estimation.md
+  03-third-party-dependencies.md
+  04-technical-risks.md
+  feasibility-report.md
+```
+
+## Phase 4: GTM
+
+Invoke @gtm-director with the idea + research + strategy + technical context. It runs three sub-teams:
 
 1. **Design** (first, blocks video): Two designers + consolidator → working Next.js prototype
 2. **Video** (parallel with marketing): Remotion promo video → rendered mp4
@@ -94,7 +115,24 @@ gtm/
 FINAL_REPORT.md
 ```
 
-## Phase 4: Done
+## Phase 5: Pre-sales
+
+Invoke @presales-director with the idea context + all prior phase output. It spawns 5 specialists and produces a complete commercial proposal package.
+
+**Gate:** Verify using binary checks in `agents/references/gates.md` (Pre-sales section).
+
+**Expected output:**
+```
+presales/
+  01-commercial-proposal.md
+  02-pricing-model.md
+  03-technical-summary.md
+  04-risk-mitigation-plan.md
+  05-case-for-action.md
+  proposal-package.md
+```
+
+## Phase 6: Done
 
 Print summary: phases completed, verdict, artifacts produced, and total duration.
 
