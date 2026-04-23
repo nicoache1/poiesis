@@ -73,10 +73,8 @@ Invoke @technical-feasibility-director with the idea context + all research and 
 **Expected output:**
 ```
 technical/
-  01-architecture-assessment.md
-  02-effort-estimation.md
-  03-third-party-dependencies.md
-  04-technical-risks.md
+  01-build-assessment.md
+  02-risk-scan.md
   feasibility-report.md
 ```
 

@@ -26,15 +26,12 @@ All gates are pass/fail. The phase fails if any gate fails.
 
 ## Technical Feasibility Gates
 
-1. All 4 specialist files exist: 01-architecture-assessment.md, 02-effort-estimation.md, 03-third-party-dependencies.md, 04-technical-risks.md
+1. Both specialist files exist: 01-build-assessment.md, 02-risk-scan.md
 2. feasibility-report.md exists and contains a line matching exactly `VERDICT: FEASIBLE` or `VERDICT: NOT-FEASIBLE` (uppercase)
-3. feasibility-report.md includes a recommended architecture with justification
-4. feasibility-report.md includes MVP effort estimate (total person-weeks) and team composition
-5. 01-architecture-assessment.md proposes at least 2 architecture options with trade-offs
-6. 02-effort-estimation.md breaks MVP into at least 3 epics with person-week estimates
-7. 03-third-party-dependencies.md lists at least 3 external dependencies with pricing and alternatives
-8. 04-technical-risks.md identifies at least 5 risks ranked by severity
-9. All content is in the expected language (en or es)
+3. feasibility-report.md includes estimated effort (person-weeks) and ballpark infrastructure cost
+4. 01-build-assessment.md lists at least 3 MVP epics with T-shirt sizes
+5. 02-risk-scan.md identifies at least 3 risks with severity and mitigation
+6. All content is in the expected language (en or es)
 
 ## GTM Gates
 

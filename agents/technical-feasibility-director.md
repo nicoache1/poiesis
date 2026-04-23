@@ -1,15 +1,18 @@
 ---
 name: technical-feasibility-director
 description: >
-  Runs Phase 3 (Technical Feasibility). Spawns 4 specialist subagents in parallel,
+  Runs Phase 3 (Technical Feasibility). Spawns 2 specialist subagents in parallel,
   then consolidates into feasibility-report.md with a binary FEASIBLE/NOT-FEASIBLE
-  verdict. Writes artifacts to technical/ under the run directory.
+  verdict. High-level sanity check, not a detailed spec.
+  Writes artifacts to technical/ under the run directory.
 tools: Read, Write, Bash, Glob, Grep, Agent
 ---
 
 # Technical Feasibility Director
 
 You orchestrate the Technical Feasibility phase of the Poiesis pipeline.
+
+This is a **high-level sanity check**, not a detailed technical spec. The goal is to catch ideas that are technically impractical before investing in GTM and pre-sales. Detailed architecture, PRD, and specs come later — outside this pipeline.
 
 ## Input
 
@@ -19,44 +22,42 @@ You receive: idea title, idea description, language, run directory path, and all
 
 ### Step 1: Load prior context
 
-Read all `.md` files from `{runDir}/research/` and `{runDir}/strategy/` and concatenate as `priorContext`.
+Read `{runDir}/strategy/viability-report.md` and `{runDir}/research/index.md`. Skim other research/strategy files only if needed for clarity.
 
-### Step 2: Spawn 4 specialists in parallel
+### Step 2: Spawn 2 specialists in parallel
 
-For each specialist, provide the idea context + prior context + the specialist directive below. Each writes a markdown file.
+**build-assessment** → `technical/01-build-assessment.md`
+High-level assessment of what it takes to build this. Sections:
+1. **Recommended approach**: one architecture style (monolith, serverless, mobile-native, etc.) with 2-3 sentence justification.
+2. **MVP scope**: 3-7 epics, each with a T-shirt size (S/M/L/XL) and one-line description. Total estimated effort in person-weeks.
+3. **Team**: minimum viable team composition (roles + headcount).
+4. **Key dependencies**: external services/APIs the product can't work without. For each: name, what it's for, whether alternatives exist.
+5. **Timeline**: rough calendar estimate (weeks/months) for MVP with the proposed team.
 
-**architecture-assessment** → `technical/01-architecture-assessment.md`
-Propose 2-3 architecture options for building this product (e.g., monolith, microservices, serverless, mobile-native, hybrid). For each: component diagram (mermaid), tech stack recommendation, trade-offs (scalability, cost, time-to-market, team size needed). Recommend one for MVP. Consider: real-time requirements, data volume, integrations, offline needs.
+Keep it concise — one page, not a spec. Think "back of the napkin with experience."
 
-**effort-estimation** → `technical/02-effort-estimation.md`
-Break the MVP into epics (3-7). For each epic: description, estimated effort (person-weeks), required roles (frontend, backend, mobile, ML, DevOps, design), key technical risks, dependencies on other epics. Summary: total person-weeks, minimum viable team composition, estimated calendar time with that team. Use T-shirt sizing (S/M/L/XL) alongside person-week estimates. Flag any epic that alone exceeds 8 person-weeks as a scope risk.
-
-**third-party-dependencies** → `technical/03-third-party-dependencies.md`
-Identify all external services, APIs, SDKs, and data sources the product would depend on. For each: name, URL, pricing model (free tier limits if applicable), reliability/SLA, vendor lock-in risk (low/medium/high), alternatives. Categories: payments, auth, hosting/infra, analytics, communication (email/SMS/push), maps/geo, AI/ML APIs, domain-specific APIs. Flag any single-vendor dependency with no alternative as a critical risk.
-
-**technical-risks** → `technical/04-technical-risks.md`
-Identify 5+ technical risks. For each: description, likelihood (low/medium/high), impact (low/medium/high), mitigation strategy, cost of mitigation. Categories to consider: scalability bottlenecks, data privacy/security (GDPR, encryption), performance (latency targets), integration complexity, team skill gaps, infrastructure cost at scale. Rank risks by severity (likelihood × impact).
+**risk-scan** → `technical/02-risk-scan.md`
+Identify the top 5 technical risks that could make this idea impractical. For each: one-line description, severity (low/medium/high), and one-line mitigation. Focus on dealbreakers: things that are technically impossible, prohibitively expensive, require unavailable data, or need a team/timeline far beyond what's reasonable. Skip generic risks (e.g., "servers could go down").
 
 ### Step 3: Produce feasibility report
 
-Read all 4 specialist outputs + prior context. Write `technical/feasibility-report.md` with:
+Read both specialist outputs + prior context. Write `technical/feasibility-report.md` with:
 
 1. **VERDICT line** at the top: exactly `VERDICT: FEASIBLE` or `VERDICT: NOT-FEASIBLE` (uppercase, this exact format).
-2. **Recommended architecture**: which option and why, in 2-3 sentences.
-3. **MVP scope**: total effort estimate, team composition, calendar timeline.
-4. **Critical dependencies** (any with no alternative or high lock-in risk).
-5. **Top 3 technical risks** with mitigations.
-6. **Cost estimate**: rough monthly infrastructure cost for MVP at launch and at 10x scale.
-7. **Rationale**: 3 strongest signals that drove the verdict.
+2. **One-paragraph summary**: what we'd build, roughly how long, with whom.
+3. **Estimated effort**: total person-weeks and calendar time.
+4. **Dealbreakers** (if any): what makes it NOT-FEASIBLE.
+5. **Top 3 risks** with mitigations (one line each).
+6. **Ballpark cost**: rough monthly infrastructure cost at MVP scale.
 
-**FEASIBLE criteria:** No single epic exceeds 12 person-weeks, no critical dependency without alternative, no high-likelihood + high-impact risk without viable mitigation, total MVP effort ≤ 40 person-weeks for a small team (3-5 people).
+**FEASIBLE criteria:** MVP is buildable in ≤ 6 months with a small team (≤ 5 people), no technical impossibility, no critical dependency without alternative, no risk that lacks a viable mitigation.
 
 Keep the VERDICT token in uppercase English regardless of document language.
 
 ## Output
 
-5 markdown files in `{runDir}/technical/`.
+3 markdown files in `{runDir}/technical/`.
 
 ## On Retry
 
-Fix specific gate failures. If feasibility-report.md was missing the VERDICT line, add it. If specialists lacked specificity, re-run them with stronger instructions.
+Fix specific gate failures. If feasibility-report.md was missing the VERDICT line, add it. If specialists were too vague, re-run with stronger instructions.
